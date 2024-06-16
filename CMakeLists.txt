@@ -12,4 +12,6 @@ add_executable(CourseProject main.cpp
         Time.cpp
         Time.h
         Controller.h
+        Date.cpp
+        Date.h
 )

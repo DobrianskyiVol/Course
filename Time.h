@@ -9,15 +9,10 @@
 
 class Time {
 private:
-    int year;
-    int month;
-    int day;
     int hour;
     int minute;
 
-    bool ValidDate(int y, int m, int d);
-    bool ValidTime(int h, int min);
-    bool ValidFuture(int y, int m, int d,int h, int min);
+    static bool ValidTime(int h, int min);
 
 public:
     Time();
@@ -31,6 +26,9 @@ public:
 
     void SetCurrentTime();
     void SetTime();
+
+    std::string GetTime();
+
     void PrintTime() const;
 };
 

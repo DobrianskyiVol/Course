@@ -73,6 +73,12 @@ build CMakeFiles/CourseProject.dir/Time.cpp.obj: CXX_COMPILER__CourseProject_uns
   OBJECT_DIR = CMakeFiles\CourseProject.dir
   OBJECT_FILE_DIR = CMakeFiles\CourseProject.dir
 
+build CMakeFiles/CourseProject.dir/Date.cpp.obj: CXX_COMPILER__CourseProject_unscanned_Debug D$:/C++/CourseProject/Date.cpp || cmake_object_order_depends_target_CourseProject
+  DEP_FILE = CMakeFiles\CourseProject.dir\Date.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\CourseProject.dir
+  OBJECT_FILE_DIR = CMakeFiles\CourseProject.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target CourseProject
@@ -81,7 +87,7 @@ build CMakeFiles/CourseProject.dir/Time.cpp.obj: CXX_COMPILER__CourseProject_uns
 #############################################
 # Link the executable CourseProject.exe
 
-build CourseProject.exe: CXX_EXECUTABLE_LINKER__CourseProject_Debug CMakeFiles/CourseProject.dir/main.cpp.obj CMakeFiles/CourseProject.dir/Task.cpp.obj CMakeFiles/CourseProject.dir/Type.cpp.obj CMakeFiles/CourseProject.dir/Time.cpp.obj
+build CourseProject.exe: CXX_EXECUTABLE_LINKER__CourseProject_Debug CMakeFiles/CourseProject.dir/main.cpp.obj CMakeFiles/CourseProject.dir/Task.cpp.obj CMakeFiles/CourseProject.dir/Type.cpp.obj CMakeFiles/CourseProject.dir/Time.cpp.obj CMakeFiles/CourseProject.dir/Date.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\CourseProject.dir

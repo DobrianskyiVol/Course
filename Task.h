@@ -4,11 +4,10 @@
 #include<iostream>
 #include<fstream>
 #include<iomanip>
-#include "TaskInterface.h"
 #include "Time.h"
 #include"Type.h"
 
-class Task:TaskInterface {
+class Task{
 private:
     std::unique_ptr<int> priority;
     std::string name;
@@ -21,7 +20,11 @@ public:
     //Default constructor
     Task();
     //Default destructor
-    ~Task() override = default;
+    ~Task() = default;
+    //Copy constructor
+    Task(Task &task);
+    //Move constructor
+    Task(Task &&task) noexcept;
 //Set value
     void SetPriority();
     void SetName();
@@ -40,11 +43,11 @@ public:
     Time GetTime_end();
 
 //Overridden methods from Interface
-    void WriteToFile() override;
-    void ReadFromFile() override;
+    void WriteToFile() ;
+    void ReadFromFile() ;
    // void Edit() override;
-    void Create() override;
-    void DisplayTask();
+    void Create() ;
+
 
 //Overloaded operators
     friend  std::ostream &operator <<(std::ostream &os, Task &task);

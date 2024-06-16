@@ -4,6 +4,30 @@
 
 Task::Task():priority(std::make_unique<int>(0)),status("Active") {}
 
+Task::Task(Task& task)
+        : name(task.name),
+          description(task.description),
+          status(task.status),
+          time_end(task.time_end),
+          time_start(task.time_start),
+          priority(std::make_unique<int>(*task.priority)),
+        type(task.type){}
+
+Task::Task(Task &&task) noexcept:name(std::move(task.name)),
+          description(std::move(task.description)),
+          status(std::move(task.status)),
+          time_end(std::move(task.time_end)),
+          time_start(std::move(task.time_start)),
+          priority(std::move(task.priority)),
+            type(std::move(task.type)) {
+
+    task.name.clear();
+    task.description.clear();
+    task.status.clear();
+
+}
+
+
 std::string Task::GetDescription() {
     return description;
 }
@@ -18,7 +42,7 @@ std::string Task::GetStatus() {
 }
 
 Type Task::GetType() {
-    return type;
+    return std::move(type);
 }
 
 Time Task::GetTime_start() {
@@ -83,13 +107,13 @@ void Task::ReadFromFile() {
 
 
 std::ostream &operator <<(std::ostream &os, Task &task) {
-    os << task.name << std::endl;
-    os << task.description << std::endl;
-    os << *task.priority << std::endl;
-    os << task.status << std::endl;
-    os << task.type << std::endl;
-    os << task.time_start << std::endl;
-    os << task.time_end << std::endl;
+    os << task.name <<"\n";
+    os << task.description<<"\n";
+    os << *task.priority<<"\n";
+    os << task.status<<"\n";
+    os << task.type;
+    os << task.time_start;
+    os << task.time_end;
     return os;
 }
 
@@ -109,22 +133,19 @@ std::istream &operator >>(std::istream &is, Task &task) {
 void Task::Create() {
     std::cout << "Enter name of the task:";
      SetName();
+    std::cout << "Enter descritpion: ";
+    std:getline(std::cin,description);
     std::cout << "Enter priority in range from 1 to 5:";
-     SetPriority();
-    // std::cout << "Enter descritpion: ";
-    //  SetDescription();
-    // std::cin.ignore();
-    std::cout << "Enter start of the task:";
+    SetPriority();
+    //std::cin.ignore();
+    std::cout << "Start at: ";
      SetTime_start();
     //std::cin.ignore();
-    std::cout << "Enter end of the task:";
+    std::cout << "End at:";
      SetTime_end();
     std::cout << std::endl;
 }
 
-void Task::DisplayTask() {
-    std::cout << "Name:" << std::setw(5) <<"Description"<<std::endl;
-    std::cout << name;
-}
+
 
 

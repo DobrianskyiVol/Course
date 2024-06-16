@@ -1,5 +1,14 @@
 #include "Type.h"
 
+Type::Type(Type&& m_type) noexcept : type(std::move(m_type.type)), typeId(m_type.typeId) {
+    m_type.typeId = 0; // Reset ID to 0
+    m_type.type.clear(); // Clear the string
+}
+
+// Copy constructor
+Type::Type(const Type& c_type) : type(c_type.type), typeId(c_type.typeId) {}
+// Type::Type(Type &c_type):type(c_type.type),typeId(c_type.typeId){}
+
 Type::Type(std::string &&type):type{type} {
     id++;
     typeId = id;
