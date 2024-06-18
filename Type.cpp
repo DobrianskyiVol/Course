@@ -32,7 +32,7 @@ int Type::GetId() const {
 }
 
 std::ostream &operator <<(std::ostream &os, Type &type) {
-    os << type.typeId << std::endl << type.type << std::endl;
+    os << type.typeId << "\n" << type.type << "\n";
     return os;
 }
 std::istream &operator >>(std::istream &is, Type &type) {

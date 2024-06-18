@@ -8,7 +8,7 @@ public:
     virtual ~TaskInterface() = default;
 
     virtual void WriteToFile(Date &date,std::list<Task> &tasks) = 0;
-    virtual std::list<Task> ReadFromFile(std::string &nameoffile) = 0;
+    virtual std::list<Task> ReadFromFile(Date &date) = 0;
     virtual void Create() = 0;
 
 };

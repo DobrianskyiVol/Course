@@ -55,7 +55,7 @@ bool Time::operator==(Time &rhs) const {
 }
 
 std::ostream &operator <<(std::ostream &os, Time &time) {
-    os << time.hour << ": ";
+    os << time.hour << "\n";
     os << time.minute << "\n";
     return os;
 };

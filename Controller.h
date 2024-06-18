@@ -4,13 +4,12 @@
 #include <iostream>
 #include <iomanip>
 #include"Time.h"
-#include<thread>
+//#include<thread>
 #include"Type.h"
 #include<map>
 #include "tabulate\single_include\tabulate\tabulate.hpp"
 #include "Task.h"
 #include<list>
-#include <cstdlib>
 #include "Date.h"
 #include "TaskInterface.h"
 #include<fstream>
@@ -31,28 +30,38 @@ public:
     };
 
     void WriteToFile(Date &date, std::list<Task> &tasks) override {
-        std::string nameoffile = ("day" + '/' +  date.GetDate() + ".txt");
+        std::string folder = R"(D:\C++\CourseProject\day\)";
+        std::string nameoffile = (folder  +  date.GetDate() + ".txt");
         std::ofstream of(nameoffile);
         if (!of) {
             std::cerr << "Error opening file: " << nameoffile << std::endl;
             return;
         }
-        std::for_each(tasks.begin(),tasks.end(),[&of](Task &task) {
-            of << task;
-        });
+        if (!tasks.empty()) {
+            std::for_each(tasks.begin(),tasks.end(),[&of](Task &task) {
+                of << task;
+            });
+        }
         of.close();
     };
 
-     std::list<Task> ReadFromFile(std::string &nameoffile) override {
+     std::list<Task> ReadFromFile(Date &date) override {
+         std::string folder = R"(D:\C++\CourseProject\day\)";
+         std::string nameoffile = (folder  +  date.GetDate() + ".txt");
      std::list<Task> tasks;
      std::ifstream of(nameoffile);
      if (!of) {
          std::cerr << "Error opening file: " << nameoffile << std::endl;
          return tasks;
      }
-     std::for_each(tasks.begin(),tasks.end(),[&of](Task &task) {
-         of >> task;
-     });
+
+   while (true) {
+       Task task;
+       of >> task;
+       tasks.emplace_back(task);
+       if (of.eof())
+           break;
+   }
      return tasks;
  };
 
@@ -73,7 +82,7 @@ public:
         while (true) {
 
             std::cin >> n;
-            if (n > 4 or n < 0) {
+            if (n > types.size() or n < 0) {
                 std::cerr << "Out of range ";
                 std::cout << "Be more careful;)\n";
                 continue;
@@ -90,6 +99,8 @@ public:
 
     void Edit(std::list<Task> &tasks) {
         std::string NameToFind;
+        std::cout << "Enter name of task, you would like to Edit \n";
+
         std::getline(std::cin,NameToFind);
 
 
@@ -101,16 +112,18 @@ public:
         if (TaskToChange != tasks.end()) {
             int n;
             std::cout << "Current name: " << TaskToChange->GetName();
-            std::cout << "Press 1 if you want to change it. Otherwise press any other number ";
+            std::cout << "Press 1 if you want to change it. Otherwise press any other number \n";
+            std::cin.ignore();
             std::cin >> n;
             if (n == 1) {
                 std::cout << "Set new name: ";
+                std::cin.ignore();
                 TaskToChange->SetName();
                 n = 0;
             }
 
-            std::cout << "Current description: " << TaskToChange->GetDescription();
-            std::cout << "Press 1 if you want to change it. Otherwise press any other number ";
+            std::cout << "\n Current description: " << TaskToChange->GetDescription();
+            std::cout << "\nPress 1 if you want to change it. Otherwise press any other number ";
             std::cin >> n;
             if (n == 1) {
                 std::cout << "Set new description: ";
@@ -122,24 +135,24 @@ public:
             std::cout << "Press 1 if you want to change it. Otherwise press any other number ";
             std::cin >> n;
             if (n == 1) {
-                std::cout << "Set new description: ";
+                std::cout << "Set new description: \n";
                 TaskToChange->SetPriority();
                 n = 0;
             }
 
-            std::cout << "Current Start time: " << TaskToChange->GetType().getType();
-            std::cout << "Press 1 if you want to change it. Otherwise press any other number ";
+            std::cout << "\nCurrent Start time: " << TaskToChange->GetType().getType();
+            std::cout << "Press 1 if you want to change it. Otherwise press any other number \n";
             std::cin >> n;
             if (n == 1) {
-                std::cout << "Set new Start time: ";
+                std::cout << "Set new Start time: \n";
                 TaskToChange->SetTime_start();
                 n = 0;
             }
-            std::cout << "Current End time: " << TaskToChange->GetType().getType();
-            std::cout << "Press 1 if you want to change it. Otherwise press any other number ";
+            std::cout << "\nCurrent End time: " << TaskToChange->GetType().getType();
+            std::cout << "\nPress 1 if you want to change it. Otherwise press any other number ";
             std::cin >> n;
             if (n == 1) {
-                std::cout << "Set new End time: ";
+                std::cout << "\nSet new End time: ";
                 TaskToChange->SetTime_end();
                 n = 0;
             }
@@ -194,18 +207,36 @@ public:
             std::cout << table << std::endl;
     }
 
+    void SortByPriority(std::list<Task> &tasks) {
+        tasks.sort(
+            [](Task &task_1, Task &task_2) {
+                return (task_1.GetPriority() < task_2.GetPriority());
+            });
+    }
+
+    void SortByName(std::list<Task> &tasks) {
+        tasks.sort(
+            [](Task &task_1, Task &task_2) {
+                return (task_1.GetName() < task_2.GetName());
+            });
+    }
+    void SortByType(std::list<Task> &tasks) {
+        tasks.sort(
+            [](Task &task_1, Task &task_2) {
+                return (task_1.GetType().GetId() >= task_2.GetType().GetId());
+            });
+    }
+
+
+
     void Proggram() {
         Date date;
-        date.SetCurrentDate();
-       std::list<Task> tasks;
-        Task task;
-        task.Create();
-        chooseType(task);
-        tasks.emplace_back(task);
-        PrintTimeTable(tasks);
+        date.SetDate();
+         std::list<Task> tasks = ReadFromFile(date);
+         PrintTimeTable(tasks);
+        Edit(tasks);
         WriteToFile(date,tasks);
-        /*std::string nameoffile = "day\\" +  date.GetDate() + ".txt";
-        std::cout << nameoffile;*/
+        PrintTimeTable(tasks);
     }
 
 };
